@@ -96,7 +96,7 @@ function App() {
           {loading ? "Procesando..." : "Procesar"}
         </button>
         <hr />
-        <div>Respuesta: {data}</div>
+        <div> <p style={{ border: '30px', backgroundColor: '#101010'}}>{data}</p></div>
       </div>
     </>
   );
