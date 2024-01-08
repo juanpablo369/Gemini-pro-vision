@@ -12,20 +12,7 @@ function App() {
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const [imagen, setImagen] = useState("");
-
-  const manejarCambioArchivo = (event) => {
-    const archivo = event.target.files[0];
-
-    if (archivo) {
-      const lector = new FileReader();
-
-      lector.onload = function (e) {
-        setImagen(e.target.result);
-      };
-
-      lector.readAsDataURL(archivo);
-    }
-  };
+ 
 
   async function ObtenerDatosDeGemini() {
     try {
@@ -70,6 +57,12 @@ function App() {
     };
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      ObtenerDatosDeGemini();
+    }
+  };
   return (
     <>
       <nav className="unl">
@@ -79,22 +72,23 @@ function App() {
           style={{ width: '90px', height: 'auto' }}
           alt="Gemini Universidad Nacional de Loja" /> 
       </nav>
-      <div className="card">
         {imagen && <img src={imagen} alt="Imagen" style={{ maxWidth: '100px' }} />}
         <br />
-        <input type="file" onChange={manejarCambioArchivo} />
+        <input type="file" />
         <input
           type="text"
           style={{ width: 432, height: 30, textAlign: "center" }}
           value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-        />
+          onKeyDown={handleKeyDown}
+          onChange={(e) => setInputText(e.target.value)}/>
         {" | "}
         <button disabled={loading} onClick={() => ObtenerDatosDeGemini()}>
           {loading ? "Procesando..." : "Procesar"}
         </button>
         <hr />
-        <div> <p style={{ border: '30px', backgroundColor: '#101010'}}>{data}</p></div>
+        
+      <div className="card">
+        <div> <p style={{ border: '30px', backgroundColor: '#101010', textAlign: "left  " }}>{data}</p></div>
       </div>
     </>
   );
