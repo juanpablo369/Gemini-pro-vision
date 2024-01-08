@@ -72,15 +72,13 @@ function App() {
 
   return (
     <>
-      <div>
+      <nav className="unl">
         <img
           src={viteLogo}
           className="logo"
           style={{ width: '90px', height: 'auto' }}
-          alt="Universidad Nacional de Loja"
-        />
-      </div>
-      <h3>Gemini - UNL</h3>
+          alt="Gemini Universidad Nacional de Loja" /> 
+      </nav>
       <div className="card">
         {imagen && <img src={imagen} alt="Imagen" style={{ maxWidth: '100px' }} />}
         <br />
