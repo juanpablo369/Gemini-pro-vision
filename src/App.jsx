@@ -45,6 +45,19 @@ function App() {
     }
   }
   
+  const manejarCambioArchivo = (event) => {
+    const archivo = event.target.files[0];
+
+    if (archivo) {
+      const lector = new FileReader();
+
+      lector.onload = function (e) {
+        setImagen(e.target.result);
+      };
+
+      lector.readAsDataURL(archivo);
+    }
+  };
 
   async function fileToGenerativePart(file) {
     const base64EncodedDataPromise = new Promise((resolve) => {
@@ -74,7 +87,7 @@ function App() {
       </nav>
         {imagen && <img src={imagen} alt="Imagen" style={{ maxWidth: '100px' }} />}
         <br />
-        <input type="file" />
+        <input type="file" onChange={manejarCambioArchivo} />
         <input
           type="text"
           style={{ width: 432, height: 30, textAlign: "center" }}
