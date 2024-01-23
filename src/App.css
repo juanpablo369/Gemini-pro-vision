@@ -28,11 +28,95 @@
     animation: logo-spin infinite 20s linear;
   }
 }
-
-.card {
-  padding: 2em;
-}
+ 
 
 .read-the-docs {
   color: #888;
+}
+/* Estilo para la tarjeta (card) */
+.card {
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  padding: 20px; /* Espaciado interno */
+  margin: 20px; /* Margen externo */
+}
+
+/* Otros estilos opcionales */
+.card h2 {
+  color: #333333; /* Color del texto */
+}
+
+.card p {
+  color: #666666; /* Color del texto secundario */
+}
+
+
+
+/* Imagen  -   Imagen  -   Imagen  -   Imagen  -   Imagen  -   */ 
+/* Pal boton de subir imagen::*/ 
+/* Estilo base */
+.custom-file-input {
+  display: inline-block;
+  position: relative;
+  font-size: 16px;
+}
+
+/* Oculta el input de archivos por defecto */
+.custom-file-input input[type="file"] {
+  display: none;
+}
+
+/* Estilo del botón personalizado con imagen */
+.custom-file-input label { 
+  background-image: url('subirimagen.png'); /* Reemplaza 'boton.png' con la ruta de tu imagen */
+  background-size: cover; 
+  padding: 5px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+  text-indent: -9999px; /* Esto oculta el texto del label, ya que ahora usamos una imagen */
+}
+/* Cambia la imagen cuando el cursor está sobre el botón */
+.custom-file-input label:hover {
+  background-image: url('subirimagen1.png'); /* Imagen al pasar el cursor sobre el botón */
+}
+
+/* Cambia la imagen cuando se hace clic en el botón */
+.custom-file-input label:active {
+  background-image: url('subirimagen2.png'); /* Imagen al hacer clic en el botón */
+}
+/* Estilo del texto que muestra el nombre del archivo seleccionado */
+.custom-file-input .file-name {
+  margin-left: 10px;
+  font-style: italic;
+  color: #333;
+}
+
+
+/* MICRO  -   MICRO  -   MICRO  -   MICRO  -   MICRO  -   */
+
+/* Estilo del botón con imagen */
+.custom-button {
+  display: inline-block;
+  border: none;
+  padding: 14px;
+  background: url('micro.png') no-repeat center center;
+  background-size: cover;
+  width: 36px; /* Ajusta el ancho según tus necesidades */
+  height: 36px; /* Ajusta la altura según tus necesidades */
+  cursor: pointer;
+  outline: none; /* Quita el contorno al hacer clic */
+}
+
+/* Cambia la imagen cuando el cursor está sobre el botón */
+.custom-button:hover {
+  background: url('micro1.png') no-repeat center center;
+  background-size: cover;
+}
+
+/* Cambia la imagen cuando se hace clic en el botón */
+.custom-button:active {
+  background: url('micro2.png') no-repeat center center;
+  background-size: cover;
 }

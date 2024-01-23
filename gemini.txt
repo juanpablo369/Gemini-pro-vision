@@ -1,0 +1,45 @@
+
+#GEMINI-1
+import textwrap
+import google.generativeai as genai  
+from markdown import Markdown
+#pa tomar foto
+import cv2
+
+
+
+#GEMINI-2
+GOOGLE_API_KEY='AIzaSyDnmiSqI7OHevZXUVpr0ah1xwhkJiJZktw'
+genai.configure(api_key=GOOGLE_API_KEY)
+ 
+def to_markdown(text):
+    return Markdown().convert(textwrap.indent(text, '> ', predicate=lambda _: True))
+#
+...
+#FUNCIONES
+
+#
+##GEMINI-3
+model = genai.GenerativeModel('gemini-pro')
+response = model.generate_content(text) 
+formatted_text = to_markdown(response.text)
+#texto_a_voz(response.text)
+...
+
+
+Desde el droidcam activar:
+	audio y video
+
+ 
+programa.Comandos()
+      while: true
+	Microfono.escuchar
+	Reconocer comando "escannear foto"
+		Ejecutar audio q diga: "apunta con el celular, 3, 2 ,1 ,click"
+		Foto=tomar.foto
+		Ejecutar audio q diga: "Procesando..."
+		response = Gemini.Vision("Describe lo que ves en la foto, si hay obstaculos, señales de transito o algo similar"+Foto)
+		speech(response )
+		programa.Comandos()
+	 
+

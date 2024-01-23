@@ -58,7 +58,66 @@ function App() {
       lector.readAsDataURL(archivo);
     }
   };
+    document.addEventListener('DOMContentLoaded', () => {
+      const startStopButton = document.getElementById('startStopButton');
+      let mediaRecorder;
+      let chunks = [];
 
+      // Verifica la compatibilidad del navegador
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+          .then((stream) => {
+            // Crea un MediaRecorder con el stream de audio
+            mediaRecorder = new MediaRecorder(stream);
+
+            // Evento cuando se graba un fragmento de audio
+            mediaRecorder.ondataavailable = (e) => {
+              if (e.data.size > 0) {
+                chunks.push(e.data);
+              }
+            };
+
+            // Evento cuando la grabación se detiene
+            mediaRecorder.onstop = () => {
+              // Combina los fragmentos de audio en un blob
+              const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+
+              // Puedes enviar el blob a un servidor o realizar otras acciones con él
+              console.log('Grabación completa:', audioBlob);
+              chunks = [];
+            };
+
+            // Agrega un listener al botón para iniciar/parar la grabación
+            startStopButton.addEventListener('click', () => {
+              if (mediaRecorder.state === 'inactive') {
+                // Reinicia la grabadora si ya estaba grabando
+                if (chunks.length > 0) {
+                  chunks = [];
+                  mediaRecorder = new MediaRecorder(stream);
+                  mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) {
+                      chunks.push(e.data);
+                    }
+                  };
+                }
+                
+                // Inicia la grabación
+                mediaRecorder.start();
+                startStopButton.textContent = 'Detener Grabación';
+              } else {
+                // Detiene la grabación
+                mediaRecorder.stop();
+                startStopButton.textContent = 'Iniciar Grabación';
+              }
+            });
+          })
+          .catch((error) => {
+            console.error('Error al acceder al micrófono:', error);
+          });
+      } else {
+        console.error('getUserMedia no está soportado en este navegador');
+      }
+    });
   async function fileToGenerativePart(file) {
     const base64EncodedDataPromise = new Promise((resolve) => {
       const reader = new FileReader();
@@ -76,35 +135,104 @@ function App() {
       ObtenerDatosDeGemini();
     }
   };
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const startStopButton = document.getElementById('startStopButton');
+    let mediaRecorder;
+    let chunks = [];
+
+    // Verifica la compatibilidad del navegador
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then((stream) => {
+          // Crea un MediaRecorder con el stream de audio
+          mediaRecorder = new MediaRecorder(stream);
+
+          // Evento cuando se graba un fragmento de audio
+          mediaRecorder.ondataavailable = (e) => {
+            if (e.data.size > 0) {
+              chunks.push(e.data);
+            }
+          };
+
+          // Evento cuando la grabación se detiene
+          mediaRecorder.onstop = () => {
+            // Combina los fragmentos de audio en un blob
+            const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+
+            // Puedes enviar el blob a un servidor o realizar otras acciones con él
+            console.log('Grabación completa:', audioBlob);
+            chunks = [];
+          };
+
+          // Agrega un listener al botón para iniciar/parar la grabación
+          startStopButton.addEventListener('click', () => {
+            if (mediaRecorder.state === 'inactive') {
+              // Reinicia la grabadora si ya estaba grabando
+              if (chunks.length > 0) {
+                chunks = [];
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = (e) => {
+                  if (e.data.size > 0) {
+                    chunks.push(e.data);
+                  }
+                };
+              }
+              
+              // Inicia la grabación
+              mediaRecorder.start();
+              startStopButton.textContent = 'Detener Grabación';
+            } else {
+              // Detiene la grabación
+              mediaRecorder.stop();
+              startStopButton.textContent = 'Iniciar Grabación';
+            }
+          });
+        })
+        .catch((error) => {
+          console.error('Error al acceder al micrófono:', error);
+        });
+    } else {
+      console.error('getUserMedia no está soportado en este navegador');
+    }
+  });
   return (
-    <>
-      <nav className="unl">
-        <img
-          src={viteLogo}
-          className="logo"
-          style={{ width: '90px', height: 'auto' }}
-          alt="Gemini Universidad Nacional de Loja" /> 
-      </nav>
-        {imagen && <img src={imagen} alt="Imagen" style={{ maxWidth: '100px' }} />}
+    //  Logo: <nav className="unl"> <img src={viteLogo} className="logo" style={{ width: '90px', height: 'auto' }} alt="Gemini Universidad Nacional de Loja" /></nav>
+    
+    <> 
+         {imagen && <img src={imagen} alt="Imagen" style={{ maxWidth: '100px' }} />}
         <br />
-        <input type="file" onChange={manejarCambioArchivo} />
+
         <input
           type="text"
           style={{ width: 432, height: 30, textAlign: "center" }}
           value={inputText}
           onKeyDown={handleKeyDown}
           onChange={(e) => setInputText(e.target.value)}/>
-        {" | "}
+        {" | "} 
+        <button class="custom-button"id="startStopButton"></button> 
+
+        <div class="custom-file-input"> 
+          <label for="fileInput">Seleccionar Archivo</label> 
+          <input type="file" id="fileInput" name="fileInput"onChange={manejarCambioArchivo}/>
+        </div> 
+
         <button disabled={loading} onClick={() => ObtenerDatosDeGemini()}>
           {loading ? "Procesando..." : "Procesar"}
         </button>
-        <hr />
-        
-      <div className="card">
-        <div> <p style={{ border: '30px', backgroundColor: '#101010', textAlign: "left  " }}>{data}</p></div>
-      </div>
+        <hr /> 
+
+        {data && (
+        <div className="card">
+          <div>
+            <p style={{  textAlign: "left" }}>{data}</p>
+          </div>
+        </div>
+      )}
+
     </>
   );
 }
+
 
 export default App;
